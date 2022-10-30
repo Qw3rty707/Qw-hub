@@ -2289,21 +2289,21 @@ function library:init()
                             local z = library.zindexOrder.window+25;
     
                             objs.holder = utility:Draw('Square', {
-                                Size = newUDim2(10,21,5,20);
+                                Size = newUDim2(0,21,0,17);
                                 Transparency = 0;
-                                ZIndex = z+10;
+                                ZIndex = z+6;
                                 Parent = self.objects.holder;
                             })
     
                             objs.background = utility:Draw('Square', {
-                                Size = newUDim2(1,100,0,15);
-                                Position = newUDim2(5,4,10,5);
+                                Size = newUDim2(0,15,0,10);
+                                Position = newUDim2(0,4,0,5);
                                 ZIndex = z+3;
                                 Parent = objs.holder;
                             })
     
                             objs.gradient = utility:Draw('Image', {
-                                Size = newUDim2(1,4,5,0);
+                                Size = newUDim2(1,0,1,0);
                                 Data = library.images.gradientp45;
                                 Transparency = .25;
                                 ZIndex = z+4;
@@ -2311,7 +2311,7 @@ function library:init()
                             })
     
                             objs.border1 = utility:Draw('Square', {
-                                Size = newUDim2(5,2,100,5);
+                                Size = newUDim2(1,2,1,2);
                                 Position = newUDim2(0,-1,0,-1);
                                 ThemeColor = 'Option Border 1';
                                 ZIndex = z+2;
@@ -2319,7 +2319,7 @@ function library:init()
                             })
     
                             objs.border2 = utility:Draw('Square', {
-                                Size = newUDim2(2,5,4,10);
+                                Size = newUDim2(1,2,1,2);
                                 Position = newUDim2(0,-1,0,-1);
                                 ThemeColor = 'Option Border 2';
                                 ZIndex = z+1;
