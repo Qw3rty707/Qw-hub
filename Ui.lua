@@ -2289,21 +2289,21 @@ function library:init()
                             local z = library.zindexOrder.window+25;
     
                             objs.holder = utility:Draw('Square', {
-                                Size = newUDim2(0,21,2,20);
+                                Size = newUDim2(10,21,5,20);
                                 Transparency = 0;
-                                ZIndex = z+6;
+                                ZIndex = z+10;
                                 Parent = self.objects.holder;
                             })
     
                             objs.background = utility:Draw('Square', {
-                                Size = newUDim2(0,15,0,8);
-                                Position = newUDim2(0,4,0,5);
+                                Size = newUDim2(1,100,0,15);
+                                Position = newUDim2(5,4,10,5);
                                 ZIndex = z+3;
                                 Parent = objs.holder;
                             })
     
                             objs.gradient = utility:Draw('Image', {
-                                Size = newUDim2(1,0,1,0);
+                                Size = newUDim2(1,4,5,0);
                                 Data = library.images.gradientp45;
                                 Transparency = .25;
                                 ZIndex = z+4;
@@ -2311,7 +2311,7 @@ function library:init()
                             })
     
                             objs.border1 = utility:Draw('Square', {
-                                Size = newUDim2(1,2,1,2);
+                                Size = newUDim2(5,2,100,5);
                                 Position = newUDim2(0,-1,0,-1);
                                 ThemeColor = 'Option Border 1';
                                 ZIndex = z+2;
@@ -2319,7 +2319,7 @@ function library:init()
                             })
     
                             objs.border2 = utility:Draw('Square', {
-                                Size = newUDim2(1,2,1,2);
+                                Size = newUDim2(2,5,4,10);
                                 Position = newUDim2(0,-1,0,-1);
                                 ThemeColor = 'Option Border 2';
                                 ZIndex = z+1;
@@ -3650,8 +3650,8 @@ function library:init()
                         })
 
                         objs.background = utility:Draw('Square', {
-                            Size = newUDim2(0,15,0,8);
-                            Position = newUDim2(1,-16,0,5);
+                            Size = newUDim2(0.1,20,0.1, 10);
+                            Position = newUDim2(1,-45,0,1);
                             ZIndex = z+3;
                             Parent = objs.holder;
                         })
@@ -4829,6 +4829,10 @@ function library:CreateSettingsTab(menu)
 
     mainSection:AddSeparator({text = 'Watermark'})
     mainSection:AddToggle({text = 'Enabled',  state = true, flag = 'watermark_enabled'});
+        mainSection:AddToggle({text = 'Enabled',  state = true, flag = '', callback = function(boolean)
+            
+        end});
+
     mainSection:AddList({text = 'Position', flag = 'watermark_pos', selected = 'Top Left', values = {'Top', 'Top Left', 'Top Right', 'Bottom Left', 'Bottom Right', 'Custom'}, callback = function(val)
         library.watermark.lock = val;
     end})
@@ -4862,7 +4866,11 @@ function library:CreateSettingsTab(menu)
 
     for i, v in pairs(library.theme) do
         themeSection:AddColor({text = i, flag = i, color = library.theme[i], callback = function(c3)
-            library.theme[i] = c3
+    
+             library.theme[i] =  c3
+
+ 
+
             library:SetTheme(library.theme)
             if not setByPreset and not setByConfig then 
                 library.options.preset_theme:Select('Custom')
@@ -4872,6 +4880,5 @@ function library:CreateSettingsTab(menu)
 
     return settingsTab;
 end
-
 getgenv().library = library
 return library
