@@ -639,4 +639,4 @@
             end
         end);
     end
-     espLibrary:Load()
+   return espLibrary
