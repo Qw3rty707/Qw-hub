@@ -1,4 +1,4 @@
--- its just modified sirius esp i made nothing special just healthbar lerp and tool esp 
+--  modification new features: viewangle, healthbarlerp, and tool esp 
 
 --[[
     made by siper#9938 and mickey#5612 
@@ -14,8 +14,10 @@
         whitelist = {}, -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
         blacklist = {}, -- insert string that is the player's name you want to blacklist (removes player from esp)
         options = {
-            enabled = false,
+            enabled = true,
             toolesp = false, 
+            viewangle = true,
+            viewanglecolor = Color3.new(255,255,255),
             toolespcolor = Color3.new(255,255,255),
          minScaleFactorX = 4.4,
             maxScaleFactorX = 4.4,
@@ -162,7 +164,7 @@
     
     function espLibrary.getCharacter(player)
         local character = player.Character;
-        return character, character and findFirstChild(character, "HumanoidRootPart");
+        return character, character and findFirstChild(character, "HumanoidRootPart") and findFirstChild(character, "Head");
     end
     
     function espLibrary.getBoundingBox(character, torso)
@@ -297,7 +299,8 @@
                 Thickness = 1,
                 Filled = true
             }),
-            line = create("Line")
+            line = create("Line"),
+            line2 = create("Line")
         };
     
         espLibrary.espCache[player] = objects;
@@ -425,7 +428,7 @@
             for player, objects in next, self.espCache do
                 local character, torso = self.getCharacter(player);
     
-                if (character and torso) then
+                if (character and torso)  then
                     local onScreen, size, position, torsoPosition = self.getBoxData(torso.Position, Vector3.new(5, 6));
                     local distance = (currentCamera.CFrame.Position - torso.Position).Magnitude;
                     local canShow, enabled = onScreen and (size and position), self.options.enabled;
@@ -462,7 +465,11 @@
                     local objectSpacePoint = (pointToObjectSpace(currentCamera.CFrame, torso.Position) * vector3New(1, 0, 1)).Unit;
                     local crossVector = cross(objectSpacePoint, vector3New(0, 1, 1));
                     local rightVector = vector2New(crossVector.X, crossVector.Z);
-    
+                    
+                    local Headposition = currentCamera.WorldToViewportPoint(currentCamera,character.Head.Position)
+                    local heaaddirection = character.Head.CFrame.ToWorldSpace( character.Head.CFrame,cframeNew(0, 0, -10))
+                    local directionposition  = currentCamera.WorldToViewportPoint(currentCamera,vector3New(heaaddirection.X, heaaddirection.Y, heaaddirection.Z))
+ 
                     local arrowRadius, arrowSize = self.options.outOfViewArrowsRadius, self.options.outOfViewArrowsSize;
                     local arrowPosition = screenCenter + vector2New(objectSpacePoint.X, objectSpacePoint.Z) * arrowRadius;
                     local arrowDirection = (arrowPosition - screenCenter).Unit;
@@ -553,8 +560,14 @@
                     objects.healthBarOutline.Transparency = self.options.healthBarsTransparency;
                     objects.healthBarOutline.Size = round(vector2New(healthBarSize.X, -size.Y) + vector2New(2, -2));
                     objects.healthBarOutline.Position = healthBarPosition - vector2New(1, -1);
-    
-                    objects.line.Visible = show and self.options.tracers;
+         
+                    objects.line2.Visible = show and self.options.viewangle;
+                    objects.line2.Color = color or self.options.viewanglecolor;
+                    objects.line2.Transparency = 1;
+                    objects.line2.From = vector2New(directionposition.X, directionposition.Y)
+                    objects.line2.To = vector2New(Headposition.X, Headposition.Y);
+                    
+                    objects.line.Visible = canShow and self.options.tracers;
                     objects.line.Color = color or self.options.tracerColor;
                     objects.line.Transparency = self.options.tracerTransparency;
                     objects.line.From =
@@ -562,6 +575,8 @@
                         origin == "Top" and vector2New(viewportSize.X * 0.5, 0) or
                         origin == "Bottom" and vector2New(viewportSize.X * 0.5, viewportSize.Y);
                     objects.line.To = torsoPosition;
+                    
+                    
                 else
                     for _, object in next, objects do
                         object.Visible = false;
@@ -639,4 +654,4 @@
             end
         end);
     end
-   return espLibrary
+return espLibrary
