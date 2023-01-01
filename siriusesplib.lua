@@ -14,15 +14,14 @@
         whitelist = {}, -- insert string that is the player's name you want to whitelist (turns esp color to whitelistColor in options)
         blacklist = {}, -- insert string that is the player's name you want to blacklist (removes player from esp)
         options = {
-            enabled = true,
+            enabled = false,
             toolesp = false, 
-            viewangle = true,
+            viewangle = false,
             viewanglecolor = Color3.new(255,255,255),
             toolespcolor = Color3.new(255,255,255),
          minScaleFactorX = 4.4,
             maxScaleFactorX = 4.4,
             minScaleFactorY = 5.8,
-            
             maxScaleFactorY = 5.8,
             boundingBoxDescending = false,
             excludedPartNames = {},
